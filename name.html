@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>JS Test</title>
+
+		<script>
+			function changeName() {
+				console.log("hello world");
+				document.querySelector("name").textContent = 
+			}
+		</script>
+
+
+	</head>
+
+	<body>
+		<h1 id="name">Text to change!</h1>
+
+		<form>
+		<input type="text" id="textbox">
+		<input type="submit" onclick="return changeName();" />
+		</form>
+	</body>
+</html>
