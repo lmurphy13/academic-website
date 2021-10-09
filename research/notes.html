@@ -8,9 +8,9 @@
 	<body>
 	<h1 class="title-block">Research Notes</h1>
 
-	<table class="content" border="1px solid black" style="margin-left: auto; margin-right: auto;">
+	<table class="content" border="1px solid black" style="width: 60%; margin-left: auto; margin-right: auto;">
 		<tr>
-			<td>			
+			<td>
 				<p>
 					When thinking about topics to review in preparation for 1. performing the research work and 2. writing the thesis, the following came to mind as potential chapters:
 					<ul>
@@ -29,6 +29,222 @@
 							Adding the MiniJava BNF grammar as an appendix
 						</li>
 					</ul>
+				</p>
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				<p>
+					It seems that the ConcurrentMiniJava compiler is layed out such that each phase can stand alone. The parser is quite complex, but still modular. It contains JavaCC parser generator files to create parsers to
+					accept each previous phase of the compiler. No doubt, this is to assist students who are unable to complete a particular phase. I should know, I was one of those students :)
+				</p>
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				<p>
+					According to the <i>ARM Compiler toolchain: Using the Assembler</i> reference document, the target ARM-based architecure has 30 general-purpose 32 bit registers. However, only the first 16 are 
+					available in user-level mode. They are as follows:
+
+					<table border="1px solid black" style="width: auto">
+						<tr>
+							<th>Register</th>
+							<th>Name</th>
+							<th>Purpose</th>
+						</tr>
+						<tr>
+							<td>
+								R0
+							</td>
+							<td>
+								-
+							</td>
+							<td>
+								General Purpose / Return Value
+							</td>
+						</tr>
+                        <tr>
+                            <td>
+                                R1
+                            </td>
+                            <td>
+                                -
+                            </td>
+                            <td>
+                                General Purpose / Parameter
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                R2
+                            </td>
+                            <td>
+                                -
+                            </td>
+                            <td>
+                                General Purpose / Parameter
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                R3
+                            </td>
+                            <td>
+                                -
+                            </td>
+                            <td>
+                                General Purpose / Parameter
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                R4
+                            </td>
+                            <td>
+                                -
+                            </td>
+                            <td>
+                                General Purpose
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                R5
+                            </td>
+                            <td>
+                                -
+                            </td>
+                            <td>
+                                General Purpose
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                R6
+                            </td>
+                            <td>
+                                -
+                            </td>
+                            <td>
+                                General Purpose
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                R7
+                            </td>
+                            <td>
+                                -
+                            </td>
+                            <td>
+                                General Purpose
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                R8
+                            </td>
+                            <td>
+                                -
+                            </td>
+                            <td>
+                                General Purpose
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                R9
+                            </td>
+                            <td>
+                                -
+                            </td>
+                            <td>
+                                General Purpose
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                R10
+                            </td>
+                            <td>
+                                -
+                            </td>
+                            <td>
+                                General Purpose
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                R11
+                            </td>
+                            <td>
+                                FP
+                            </td>
+                            <td>
+                                Frame Pointer
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                R12
+                            </td>
+                            <td>
+                                IP
+                            </td>
+                            <td>
+                                Intra Procedural Call
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                R13
+                            </td>
+                            <td>
+                                SP
+                            </td>
+                            <td>
+                                Stack Pointer
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                R14
+                            </td>
+                            <td>
+                                LR
+                            </td>
+                            <td>
+                                Link Register
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                R15
+                            </td>
+                            <td>
+                                PC
+                            </td>
+                            <td>
+                                Program Counter
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                CPSR
+                            </td>
+                            <td>
+                                -
+                            </td>
+                            <td>
+                                Current Program Status Register
+                            </td>
+                        </tr>
+					</table>
+				</p>
+				<p>
+					See <a href="https://azeria-labs.com/arm-data-types-and-registers-part-2/">this link</a> for more info.
 				</p>
 			</td>
 		</tr>
