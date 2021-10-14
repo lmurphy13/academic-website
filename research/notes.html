@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<DOCTYPE html>
 <html>
 	<head>	
 		<title>Research Notes</title>
@@ -48,7 +48,7 @@
 					According to the <i>ARM Compiler toolchain: Using the Assembler</i> reference document, the target ARM-based architecure has 30 general-purpose 32 bit registers. However, only the first 16 are 
 					available in user-level mode. They are as follows:
 
-					<table border="1px solid black" style="width: auto">
+					<table border="1px solid black" style="width: auto; margin-left: auto; margin-right: auto;">
 						<tr>
 							<th>Register</th>
 							<th>Name</th>
@@ -248,11 +248,115 @@
 				</p>
 			</td>
 		</tr>
+
+		<tr>
+			<td>
+				Some basic Arm instructions seen in COSC 2200 assignments:
+
+				<table border="1px solid black" style="width: auto; margin-left: auto; margin-right: auto;">
+					<tr>
+						<th>Instruction</th>
+						<th>Name</th>
+						<th>Usage</th>
+					</tr>
+					<tr>
+						<th colspan="3">
+							Arithmetic
+						</th>
+					</tr>	
+					<tr>
+						<td>add</td>
+						<td>Add</td>
+						<td>Add two integers</td>
+					</tr>
+					<tr>
+						<td>sub</td>
+						<td>Subtract</td>
+						<td>Subtract two integers</td>
+					</tr>
+					<tr>
+						<td>mul</td>
+						<td>Multiply</td>
+						<td>Multiply two integers</td>
+					</tr>
+					<tr>
+						<td>div</td>
+						<td>Divide</td>
+						<td>Divide two integers</td>
+					</tr>
+					<tr>
+						<th colspan="3">
+							Register Manipulation
+						</th>
+					<tr>
+					<tr>
+						<td>ldr</td>
+						<td>Load word</td>
+						<td>Load a register with some value from a memory address</td>
+					</tr>
+					<tr>
+						<td>str</td>
+						<td>Store word</td>
+						<td>Store the value inside a given register into a memory address</td>
+					</tr>
+					<tr>
+						<td>mov</td>
+						<td>Move</td>
+						<td>Move an immediate value into a register</td>
+					</tr>
+					<tr>
+						<td>push</td>
+						<td>Push</td>
+						<td>Push a list of registers onto the Stack</td>
+					</tr>
+					<tr>
+						<td>pop</td>
+						<td>Pop</td>
+						<td>Pop a list of registers off of the Stack</td>
+					</tr>
+					<tr>
+						<th colspan="3">
+							Logical Operators
+						</th>
+					</tr>
+					<tr>
+						<td>cmp</td>
+						<td>Compare</td>
+						<td>Compare the contents of a register with some value</td>
+					</tr>
+					<tr>
+						<td>beq</td>
+						<td>Branch if equals</td>
+						<td>Branch to some label if the status register indicates the result of a cmp is equal</td>
+					</tr>
+					<tr>
+						<td>bgt</td>
+						<td>Branch if greater than</td>
+						<td>Branch to some label if the status register indicates the result of a cmp is greater than</td>
+					</tr>		
+					<tr>
+						<td>blt</td>
+						<td>Branch if less than</td>
+						<td>Branch to some label if the status register indicates the result of a cmp is less than</td>
+					</tr>
+					<tr>
+						<td>bl</td>
+						<td>Branch and link</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>b</td>
+						<td>Branch</td>
+						<td>Branch to some label</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
 	</table>
 
 	</body>
 
-	<footer style="text-align: center">
+	<footer style="text-align: center;">
 		<hr style="width: 75%">
 		Go <a href="index.html">back</a>.
 	</footer>
