@@ -12,6 +12,14 @@
 		<tr>
 			<td>
 				<p>
+					Friday October 15, 2021: Continued work on <code>Arm/Codegen.java</code>. Had some realizations about the ARM architecture vs. MIPS, so I needed to refactor a bit of the code. Some legacy things like <code>Frame.					ZERO</code> were retained in order to make code emission easier. In the <code>Arm</code> package, <code>Frame.ZERO</code> has been itialized as <code>#0</code>, since MIPS uses a zero register to hold the same value. The easiest solution, to me, was to just set that "register" to the immediate zero value.
+				</p>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<p>
 					Wednesday October 13, 2021: Had weekly meeting with Dr. Brylow. Had a good discussion and several questions answered. Contacted Alex G. to get a copy of the Research Xinu source.
 				</p>
 				<p>

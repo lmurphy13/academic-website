@@ -352,6 +352,12 @@
 				</table>
 			</td>
 		</tr>
+
+		<tr>
+			<td>
+				Some realizations about the existing MIPS code is that in code emission, registers are given placeholder "template" values, which then later get resolved to real register values. I am still unsure how it will work when emitting code for a function. There will need to be some sort of <code>push/pop</code> handling.			
+			</td>
+		</tr>
 	</table>
 
 	</body>
