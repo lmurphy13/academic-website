@@ -13,19 +13,36 @@
 			<td>			
 				<p>
 					What is the minimum set of ARM opcodes needed to generate code for arbitrary programs? Do I need to be concerned with some of the weird opcodes?
+					<br><br>
+					<strong>See notes</strong>
 				</p>
 
 				<p>
 					Does the compiler support multiple files at once?
+					<br><br>
+					<strong>No</strong>
 				</p>
 
 				<p>
 					How can we create an executable file? Or can we only support text output of the assembly?
+					<br><br>
+					<strong>The assembly output can be captured in a .S file and then compiled as part of the Xinu kernel. The GCC assembler will take care of it</strong>
 				</p>
 
 				<p>
 					Start small. Add floating point data type?
+					<br><br>
+					<strong>This would be very difficult and make the compiler harder to port to other platforms. Each architecture uses a different scheme for handling floating-point data types, either with special opcodes or discrete floating point units</strong>
 				</p>
+
+				<p>
+					Who do I take COSC 6999: Masters Thesis with?
+				</p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+
 			</td>
 		</tr>
 	</table>
