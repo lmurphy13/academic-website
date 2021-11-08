@@ -12,6 +12,90 @@
 		<tr>
 			<td>
 				<p>
+					Sunday November 7, 2021: Progress is moving slowly now. I have been busy with work/unmotivated, so I have not made much substantive progress. However, I have identified some issues:
+				</p>
+				<ul>
+					<li>
+						Both the MIPS and ARM compilers treat functions without any "action" as having a framesize of 0. For example:
+					
+						<br><br>	
+						<code>
+							public SomeClass init() {
+								return this;
+							}							
+						</code>
+						<br><br><br>
+						Since MiniJava doesn't really have constructors, this is how we can "get" an object. This code snippet is compiled with a framesize of zero. I suspect that since no variables are declared within the body of the function, no offsets from the stackframe are needed. This is a problem, though, because I need to "get" an object before I can call one of its methods. I still think this has something to do with argument passing. Another issue with this frame setup is that no <code>push/pop</code> opcodes are generated. There must be some limit of the grammar that does not allow for "empty" functions.
+					</li>
+					<li>
+						Return values are being stomped on by function epilogues. A return value from a function gets moved into <code>r0</code>, but then gets overridden by the function epilogue using <code>r0</code> to manipulate the stack pointer. Example:
+						<br><br>
+						<pre>
+						<code>
+L6:
+        ldr     r0,     =L9
+        bl      _print
+        // Call sink
+        bl      _println
+        // Call sink
+        // THIS ONE
+        mov     r0,     #1
+        b       L14
+L8:
+        ldr     r0,     =L5
+        bl      _print
+        // Call sink
+        bl      _println
+        // Call sink
+        add     r0,     r5,     #1
+        mov     r5,     r0
+        b       L7
+L14:
+        add     r0,     fp,     Hellorun_run_framesize
+        mov     r0,     r4
+        mov     r7,     r6
+        ldr     r6,     [fp, #-4]
+        ldr     r5,     [fp, #-8]
+        ldr     r4,     [fp, #-12]
+        // return from Hellorun_run
+        sub     sp,     fp,     #4
+        pop     { fp, lr }
+        bx      lr
+						</code>						
+						</pre>
+						<br><br><br>
+						Notice how the <code>mov</code> in <code>L6</code> moves a 1 into <code>r0</code>, the standard ARM return value register. Then the program branches to <code>L14</code>, where <code>r0</code> gets demolished by the setup for the return. 
+
+
+						
+						I do not know how to get around this, yet.
+					</li>
+				</ul>
+
+
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<p>
+					Wednesday November 3, 2021: Walked to Dr. Brylow's office. He was not there.
+				</p>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<p>
+					Wednesday October 27, 2021: Met with Dr. Brylow today. We had a good discussion and made some design decisions about how to implement Arm frame prologues and epilogue, using push and pop and inline offsets in an effort to eliminate some of the unreadable Mips-era code generation. 
+				</p>
+			</td>
+		</tr>
+		
+		
+		<tr>
+			<td>
+				<p>
 					Saturday October 23, 2021: It has become apparent that there are several issues with ARM stack frame generation. The previous MIPS backend is unable to adequately be converted to return from ARM functions as of
 					right now. I will need to discuss with Dr. Brylow more about:
 					<ul>
@@ -35,7 +119,7 @@
 				</p>
 
 				<p>
-					There were initially some issues with getting the code to compile, but we can now compile very basic programs. Concurrency features are not yet supported. A bug was discovered with the register allocator. Certain registers were being used that were being overridden by procedure calls. This was resolved. An outstanding issue remains when trying to return from a function call nested within another function call. 
+				There were initially some issues with getting the code to compile, but we can now compile very basic programs. Concurrency features are not yet supported. A bug was discovered with the register allocator. Certain registers were being used that were being overridden by procedure calls. This was resolved. An outstanding issue remains when trying to return from a function call nested within another function call. 
 				</p>
 
 				<p>
@@ -43,11 +127,13 @@
 				</p>
 			</td>
 		</tr>
-		
+
 		<tr>
 			<td>
 				<p>
 					Sunday October 17, 2021: <code>Arm/Codegen.java</code> is complete, but generates semantically incorrect ARM. One large issue of note is that any generated macros contain a <code>.</code> and are causing issues when assembling. I am trying to track down where a period is getting added to the frame's name, but I am not having much luck as of yet. Once that is solved, there are two more large problems that need to get fixed:
+
+
 					<ol>
 						<li>Function prologue/epilogue</li>
 						<li><code>str</code> syntax
@@ -55,7 +141,9 @@
 				</p>
 
 				<p>
-					Currently, the ARM code generator inherits MIPS-style stack frame allocation, which involves a set of moves and stores to get caller-save registers figured out. This will need to get changed so that ARM push/pop opcodes are called instead. Also, instead of executing a <code>bx lr</code> statement at the end of a function, the ARM code generator uses the MIPS method of subtracting from the stack pointer to move into the scope of the caller function. I am unsure if this works in ARM. I may need to find a way to keep track of the caller and branch to it at the end of the callee.
+					Currently, the ARM code generator inherits MIPS-style stack frame allocation, which involves a set of moves and stores to get caller-save registers figured out. This will need to get changed so that ARM push/pop opcodes are called instead. Also, instead of executing a <code>bx 000000de> statement at the end of a function, the ARM code generator uses the MIPS method of subtracting from the stack pointer to move into the scope of the caller function. I am unsure if this works in ARM. I may need to find a way to keep track of the caller and branch to it at the end of the callee.
+
+
 				</p>
 
 				<p>
@@ -79,7 +167,8 @@
 		<tr>
 			<td>
 				<p>
-					Friday October 15, 2021: Continued work on <code>Arm/Codegen.java</code>. Had some realizations about the ARM architecture vs. MIPS, so I needed to refactor a bit of the code. Some legacy things like <code>Frame.					ZERO</code> were retained in order to make code emission easier. In the <code>Arm</code> package, <code>Frame.ZERO</code> has been itialized as <code>#0</code>, since MIPS uses a zero register to hold the same value. The easiest solution, to me, was to just set that "register" to the immediate zero value.
+					Friday October 15, 2021: Continued work on <code>Arm/Codegen.java</code>. Had some realizations about the ARM architecture vs. MIPS, so I needed to refactor a bit of the code. Some legacy things like <code>Frame.					ZERO</code> were retained in order to make code emission easier. In the <code>Arm</code> package, <code>Frame.ZERO</co000000s been itialized as <code>#0</code>, since MIPS uses a zero register to hold the same value. The easiest solution, to me, was to just set that "register" to the immediate zero value.
+
 				</p>
 			</td>
 		</tr>
@@ -132,8 +221,8 @@
 		
 		<tr>
 			<td>
-				<p>
-					Tuesday October 5, 2021: <i>Compilers: Principles, Techniques, & Tools</i> arrived in the mail. Began skimming the first few chapters.
+			<p>
+				Tuesday October 5, 2021: <i>Compilers: Principles, Techniques, & Tools</i> arrived in the mail. Began skimming the first few chapters.
 					Added to <a href="sources.html">list of sources</a>.
 				</p>
 			</td>
