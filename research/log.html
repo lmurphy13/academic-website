@@ -12,7 +12,27 @@
 		<tr>
 			<td>
 				<p>
-					Sunday November 7, 2021: Progress is moving slowly now. I have been busy with work/unmotivated, so I have not made much substantive progress. However, I have identified some issues:
+					Sunday, November 14, 2021: Worked on commenting out the now-unnecessary push/pop code and making sure the original <code>ldr</code> and <code>str</code> opcodes are still present within the frame prologue and epilogue. I am still unable to get proper returning without including <code>push/pop pc, lr</code>. More information will be needed to get the MIPS-style frame behavior. There is still issue with the <code>new</code> Xinu system call.
+				</p>
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				<p>
+					Thursday, November 11, 2021: Met with Dr. Brylow and discussed the issue with push/pop registers. We learned that each callee-save register is getting moved onto the stack in MIPS. The redundant moves are eliminated by the compiler optimization, so the essential live-in registers remain. Additionally, it would be difficult to implement "dynamic" push/pop opcodes in frame prologues and epilogues because there is no IR node that represents these opcodes. For now, we will stick with the original design decision of just manually moving registers on and off the stack.
+				</p>
+
+				<p>
+					We discussed some administrative paperwork and I emailed Jackie about scheduling a section of COSC 6999: Master's Thesis with Dr. Brylow as the instructor.
+				</p>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<p>
+					Sunday, November 7, 2021: Progress is moving slowly now. I have been busy with work/unmotivated, so I have not made much substantive progress. However, I have identified some issues:
 				</p>
 				<ul>
 					<li>
@@ -79,7 +99,7 @@ L14:
 		<tr>
 			<td>
 				<p>
-					Wednesday November 3, 2021: Walked to Dr. Brylow's office. He was not there.
+					Wednesday, November 3, 2021: Walked to Dr. Brylow's office. He was not there.
 				</p>
 			</td>
 		</tr>
@@ -87,7 +107,7 @@ L14:
 		<tr>
 			<td>
 				<p>
-					Wednesday October 27, 2021: Met with Dr. Brylow today. We had a good discussion and made some design decisions about how to implement Arm frame prologues and epilogue, using push and pop and inline offsets in an effort to eliminate some of the unreadable Mips-era code generation. 
+					Wednesday, October 27, 2021: Met with Dr. Brylow today. We had a good discussion and made some design decisions about how to implement Arm frame prologues and epilogue, using push and pop and inline offsets in an effort to eliminate some of the unreadable Mips-era code generation. 
 				</p>
 			</td>
 		</tr>
@@ -96,7 +116,7 @@ L14:
 		<tr>
 			<td>
 				<p>
-					Saturday October 23, 2021: It has become apparent that there are several issues with ARM stack frame generation. The previous MIPS backend is unable to adequately be converted to return from ARM functions as of
+					Saturday, October 23, 2021: It has become apparent that there are several issues with ARM stack frame generation. The previous MIPS backend is unable to adequately be converted to return from ARM functions as of
 					right now. I will need to discuss with Dr. Brylow more about:
 					<ul>
 						<li>Creating and destroying stack frames</li>
@@ -115,7 +135,7 @@ L14:
 		<tr>
 			<td>
 				<p>
-					Wednesday October 20, 2021: Met with Dr. Brylow today. Showed him my progress on the code and my thesis. He gave me the <code>minijava.c</code> file that implements some of the system calls used by the MiniJava compiler. He also showed me how to compile the output of the MiniJava compiler into Xinu. 
+					Wednesday, October 20, 2021: Met with Dr. Brylow today. Showed him my progress on the code and my thesis. He gave me the <code>minijava.c</code> file that implements some of the system calls used by the MiniJava compiler. He also showed me how to compile the output of the MiniJava compiler into Xinu. 
 				</p>
 
 				<p>
@@ -131,7 +151,7 @@ L14:
 		<tr>
 			<td>
 				<p>
-					Sunday October 17, 2021: <code>Arm/Codegen.java</code> is complete, but generates semantically incorrect ARM. One large issue of note is that any generated macros contain a <code>.</code> and are causing issues when assembling. I am trying to track down where a period is getting added to the frame's name, but I am not having much luck as of yet. Once that is solved, there are two more large problems that need to get fixed:
+					Sunday, October 17, 2021: <code>Arm/Codegen.java</code> is complete, but generates semantically incorrect ARM. One large issue of note is that any generated macros contain a <code>.</code> and are causing issues when assembling. I am trying to track down where a period is getting added to the frame's name, but I am not having much luck as of yet. Once that is solved, there are two more large problems that need to get fixed:
 
 
 					<ol>
@@ -159,7 +179,7 @@ L14:
 		<tr>
 			<td>
 				<p>
-					Saturday October 16, 2021: Nearly done with <code>Arm/Codegen.java</code> and will begin preliminary testing ASAP. Also, started thinking about organization for Chapters 2 and 3, Background and Related Work chapters. 
+					Saturday, October 16, 2021: Nearly done with <code>Arm/Codegen.java</code> and will begin preliminary testing ASAP. Also, started thinking about organization for Chapters 2 and 3, Background and Related Work chapters. 
 				</p>
 			</td>
 		</tr>
@@ -167,7 +187,7 @@ L14:
 		<tr>
 			<td>
 				<p>
-					Friday October 15, 2021: Continued work on <code>Arm/Codegen.java</code>. Had some realizations about the ARM architecture vs. MIPS, so I needed to refactor a bit of the code. Some legacy things like <code>Frame.					ZERO</code> were retained in order to make code emission easier. In the <code>Arm</code> package, <code>Frame.ZERO</co000000s been itialized as <code>#0</code>, since MIPS uses a zero register to hold the same value. The easiest solution, to me, was to just set that "register" to the immediate zero value.
+					Friday, October 15, 2021: Continued work on <code>Arm/Codegen.java</code>. Had some realizations about the ARM architecture vs. MIPS, so I needed to refactor a bit of the code. Some legacy things like <code>Frame.					ZERO</code> were retained in order to make code emission easier. In the <code>Arm</code> package, <code>Frame.ZERO</co000000s been itialized as <code>#0</code>, since MIPS uses a zero register to hold the same value. The easiest solution, to me, was to just set that "register" to the immediate zero value.
 
 				</p>
 			</td>
@@ -176,7 +196,7 @@ L14:
 		<tr>
 			<td>
 				<p>
-					Wednesday October 13, 2021: Had weekly meeting with Dr. Brylow. Had a good discussion and several questions answered. Contacted Alex G. to get a copy of the Research Xinu source.
+					Wednesday, October 13, 2021: Had weekly meeting with Dr. Brylow. Had a good discussion and several questions answered. Contacted Alex G. to get a copy of the Research Xinu source.
 				</p>
 				<p>
 					<strong>Code Progress:</strong>
@@ -195,7 +215,7 @@ L14:
 		<tr>
 			<td>
 				<p>
-					Saturday October 9, 2021: Bookmarked important sections of <i>Dragon Book</i> Chapter 8 and Appel Chapter 8. Started considering how to create Arm Basic Blocks. Wrote a cheatsheet on Arm 32 bit registers. 
+					Saturday, October 9, 2021: Bookmarked important sections of <i>Dragon Book</i> Chapter 8 and Appel Chapter 8. Started considering how to create Arm Basic Blocks. Wrote a cheatsheet on Arm 32 bit registers. 
 				</p>
 			</td>
 		</tr>
@@ -203,7 +223,7 @@ L14:
 		<tr>
 			<td>
 				<p>
-					Friday October 8, 2021: Read the first half of <i>Dragon Book</i> Chapter 8. Looked more at existing compiler codebase. Began thinking about thesis chapters.
+					Friday, October 8, 2021: Read the first half of <i>Dragon Book</i> Chapter 8. Looked more at existing compiler codebase. Began thinking about thesis chapters.
 				</p>
 			</td>
 		</tr>
@@ -211,7 +231,7 @@ L14:
 		<tr>
 			<td>
 				<p>
-					Thursday October 7, 2021: Dr. Brylow gave me access to the ConcurrentMiniJava compiler GitHub repository. I have forked that repository into my own GitHub account. After doing so, I cloned the repo to my Morbius
+					Thursday, October 7, 2021: Dr. Brylow gave me access to the ConcurrentMiniJava compiler GitHub repository. I have forked that repository into my own GitHub account. After doing so, I cloned the repo to my Morbius
 					home directory. I began laying out the <code>Arm</code> package. I have also written a bash script to build the compiler for me. I will need to brush up on my ARM assembly.
 					<br><br>
 					<strong>TODO: </strong>Ask Dr. Brylow for the latest stable version of multicore Embedded Xinu.
@@ -222,7 +242,7 @@ L14:
 		<tr>
 			<td>
 			<p>
-				Tuesday October 5, 2021: <i>Compilers: Principles, Techniques, & Tools</i> arrived in the mail. Began skimming the first few chapters.
+				Tuesday, October 5, 2021: <i>Compilers: Principles, Techniques, & Tools</i> arrived in the mail. Began skimming the first few chapters.
 					Added to <a href="sources.html">list of sources</a>.
 				</p>
 			</td>
@@ -231,7 +251,7 @@ L14:
 		<tr>
 			<td>
 				<p>
-					Friday October 1, 2021: Read Mallen & Brylow compiler paper. Added to <a href="sources.html">list of sources</a>.
+					Friday, October 1, 2021: Read Mallen & Brylow compiler paper. Added to <a href="sources.html">list of sources</a>.
 				</p>
 			</td>
 		</tr>
@@ -239,7 +259,7 @@ L14:
 		<tr>
 			<td>	
 				<p>
-					Wednesday September 29, 2021: Met with Dr. Brylow to go over expectations and to discuss a topic.
+					Wednesday, September 29, 2021: Met with Dr. Brylow to go over expectations and to discuss a topic.
 					A topic was selected: work on porting the MiniJava compiler to ARM and bring in cryptography and concurrency libraries.
 					<br><br>
 					<strong>TODO: </strong>Read Mallen & Brylow Compiler paper, submit thesis paperwork. 
