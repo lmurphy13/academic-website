@@ -12,7 +12,127 @@
 		<tr>
 			<td>
 				<p>
-					Sunday, November 14, 2021: Worked on commenting out the now-unnecessary push/pop code and making sure the original <code>ldr</code> and <code>str</code> opcodes are still present within the frame prologue and epilogue. I am still unable to get proper returning without including <code>push/pop pc, lr</code>. More information will be needed to get the MIPS-style frame behavior. There is still issue with the <code>new</code> Xinu system call.
+					Wednesday, December 22, 2021: Memory offsets are now being calculated with the stack pointer as the base. Tested on a number of testcases. BigArgs.java is still not working >:(
+				</p>
+				<p>
+					TODO: Add support for integers larger than 16 bits (i.e. splitting into two words and shifting)
+				</p>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<p>
+					Wednesday, December 15, 2021: Met with Dr. Brylow today. We decided to change design directions and revert to using the stack pointer as the base for all memory offsets. This makes things simpler when compiling functions that use more than 4 arguments. Things were getting too confusing with the stack pointer and weird offsets. We also are now properly calculating the frame size. Before, we were not taking into account the 8 bytes representing the FP and SP being pushed to the stack at the top of each frame.
+				</p>
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				<p>
+					Monday, December 13, 2021: Work from over the weekend and tonight have fixed a bug that prevented recursion from working. When performing a subtraction, the compiler actually was adding one positive number and one negative number. The Codegen branch for that case erroneously was printing a "+" instead of a "-", thus preventing recursive cases from reducing and eventually terminating. Once this was fixed, simple recursive programs, like Factorial.java, started working. Our implementation of Fibonacci also works, however it does not return back to the main process after printing the nth Fibonacci number. We are getting the correct answer, though, after recursively calculating the nth Fibonacci number. 
+				</p>
+
+				<p>
+					Test cases like NQueens work if we hard code a value instead of using getchar, which still seems to be broken on the Xinu end. BigArgs still does not work and I do not know why. However, I think we are getting to a very good position going into the winter break. We have enough functionality to start writing. 
+				</p>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<p>
+					Wednesday, December 8, 2021: Met with Dr. Brylow today. We figured out a main blocking issue with the compiler. When branching to a calculated address (i.e. branching to an address stored within a register), we were not properly linking back. For example:
+				</p>
+
+				<table style="width: 40%; margin-left: auto; margin-right: auto;" border="1px solid black">
+					<tr>
+						<th>Previous</th>
+						<th>Solution</th>
+					</tr>
+
+					<tr>
+						<td>
+							<code>
+								...
+								<br>
+								bx	r0
+								<br>
+								...
+							</code>
+						</td>
+
+						<td>
+							<code>
+								...
+								<br>
+								mov	lr,	pc
+								<br>
+								bx	r0
+								<br>
+								...
+							</code>
+						</td>
+					</tr>
+				</table>
+
+				<p>
+					Moving the program counter into the link register before branching ensures that we can find our way back to where we started and continue along in the program. With further testing, other bugs were found:
+				</p>
+
+				<ul>
+					<li>Some 2s compliment numbers 16bits or less are not properly getting emitted within some instructions like <code>add</code></li>
+					<li>Recursive function calls seems to be broken</li>
+				</ul>
+
+				However, more complex programs involving multiple classes seem to work better now.
+			</td>
+		</tr>
+			
+		<tr>
+			<td>
+				<p>
+					Sunday, December 5, 2021: Getting back to work after a hiatus due to Thanksgiving and scheduling conflicts. Some small bugs have been fixed. There were a few typos introduced when transitioning from the Mips to Arm backends of the compiler. Neither of those have fixed some programs from not running. Still working on debugging with BigArgs.java. I have not yet isolated how the Mips 16 byte offset gets introduced into register allocation inside the stack frame. The Appel/Tiger book says that this "shift" should be implemented inside the Frame class for a particular architecture. The only thing that explicitly references 16 is the CONST16 methods. However, I think those methods just make sure we are only using 16bit integers. Otherwise, things might get tricky with larger and larger numbers. I guess this makes sense for a "toy" compiler such as this with no floating point number support.
+				</p>
+
+				<p>
+					This will need more study and help from Dr. Brylow.
+				</p>
+
+				<p>
+					<strong>Writing Update:</strong> It is my intention to get a LARGE amount of writing done during the winter break in between semesters. This seems like a good time for this to happen.
+				</p>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<p>
+					Tuesday, November 15, 2021: I have registered for Spring 2022 classes, including COSC 6999.
+				</p>
+
+				<p>
+					I fixed some formatting issues with some Tikz figures in Chapter 2 of the thesis.
+				</p>
+
+				<p>
+					<strong>Coding Update</strong>
+					<br>
+					Can we run the legacy MIPS code on the SPIM simulator or MIPS Xinu? It may be useful to see a working reference implementation. Also, I was wrong! You CAN add constants INSIDE OF an ARM opcode. This simplifies the code so we can remove those un-needed moves and adds! Because of that realization, I have been able to remove any push/pop calls and have fixed an issue where <code>LR</code> was being treated as a special register and not a callee-save register. This was preventing it from being moved on and off the stack appropriately in order to return. Function prologues/epilogues look much neater and closer to the MIPS style.
+				</p>
+
+				<p>
+					There is still a problem with argument/return registers. In MIPS, there are separate registers for holding function arguments and function return values. In Arm, <code>r0</code> serves as both the first argument register and the return value register. I think this is the cause of some of our issues.
+				</p>
+			</td>
+		</tr>
+		
+		
+		<tr>
+			<td>
+				<p>
+					Sunday, November 14, 2021: Worked on commenting out the now-unnecessary push/pop code and making sure the original <code>ldr</code> and <code>str</code> opcodes are still present within the frame prologue and epilogue. I am still unable to get proper returning without including <code>push/pop pc, lr</code>. More information will be needed to get the MIPS-style frame behavior. There is still an issue with the <code>new</code> Xinu system call.
 				</p>
 			</td>
 		</tr>
