@@ -12,7 +12,111 @@
 		<tr>
 			<td>
 				<p>
+					Monday, January 10, 2022: I've added back in Type class constructors without arguments. This lets us revert back some hard-coded constructors in Semant/TypeChecker.java in favor of more "generic" ones.
+
+					I have investigated further into the issue of <code>_lock</code> and <code>_unlock</code> not working. It seems that the syscalls <code>lock/unlock</code> return an integer on either success or failure. This return value is placed in r0 upon returning from the function. This return value seems to be interfering with the following function's address being calculated and setup to be branched to.
+				</p>
+
+				<p>
+					Consider the following example:
+				</p>
+				<pre>
+L49:
+        mov     r0,     r5
+        bl      _lock
+        // Call sink
+        mov     r1,     r0
+        mov     r0,     r5
+        mov     lr,     pc
+        bx      r1
+        // Call sink
+        bl      _yield
+
+				</pre>
+
+
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				<p>
+					Wednesday, January 5, 2022: Met with Dr. Brylow today to discuss the progress made over the break.
+				</p>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<p>
+					Thursday, December 30, 2021: As I suspected, it was not difficult to add access modifiers to methods. MiniJava now has public/private fields and methods!
+				</p>
+			</td>
+		</tr>
+	
+		<tr>
+			<td>
+				<p>
+					Wednesday, December 29, 2021: I decided to switch gears a bit and put the monitor stuff on the backburner. Today, I have added public and private access modifiers to object fields. This comes from chapter 14 of Appel. He suggests to add a flag in the symbol table for a class to check if a field is public or private. I extended the grammar and parser and have added that private access check in TypeChecker.java. I will try to get this going for pmethods as well. I imagine it will be the same core idea: adding an access modifier flag in the Absyn object and Type object, modifying the grammar, and doing a check in TypeChecker.java.
+				</p>
+
+				<p>
+					If nothing else, I can say I extended the compiler to include access modifiers for security reasons. I think that deserves a chapter in the thesis!
+				</p>
+
+				<p>
+					I've also been doing some more writing. Today I worked on the parser section of chapter 2. I've also been working on adding outlines to other chapters and have started writing later chapters regarding the thesis' contributions.
+				</p>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<p>
+					Tuesday, December 28, 2021: I have figured out how to insert the lock and unlock calls into method declarations during Translation. However, there seems to be an issue with what arguments are being passed
+					to the lock and unlock calls. We need to access the monitor of an object. Do we pass <code>this</code> to those calls? When running the code, we get <code>BADMON</code> return values, so the monitors are not
+					correctly being passed into lock and unlock.
+				</p>
+			</td>
+		</tr>		
+		
+		<tr>
+			<td>
+				<p>
+					Monday, December 27, 2021: I have determined that a synchronized function is not being translated correctly. According to Adam Mallen's paper, synchronized method bodies are wrapped in monitor lock and unlock calls during the translation phase. This is not happening. I am trying to figure out how to do this, but I will probably need Dr. Brylow's help.
+				</p>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<p>
+					Sunday, December 26, 2021: I have merged the <code>big-nums</code> branch to the main branch. I have also deleted the <code>concurrency</code> branch because I was unable to rebase with the latest changes from main. Since I didn't do any work on this branch, deleting it was not an issue.
+				</p>
+				<p>
+					The <code>big-nums</code> branch adds support for large integer numbers (greater than 16 bits). The <code>mov</code> opcode limited us to 12-16 bit numbers. Now we use the <code>ldr</code> pseudo-instruction to let us add larger numbers. What this <i>actually</i> does is, at assemble-time, stores the value of the constant into a word in memory, and loads from that memory location. We will take advantage of this shortcut. This exact solution is something I was looking into implementing within the compiler, but I think it's best that we let the assembler do the work.
+				</p>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<p>
+					Friday, December 24, 2021: I have merged the <code>arm-research</code> branch to the main branch on my fork of the compiler repository. I've created a new branch called <code>concurrency</code> that will focus on getting
+					concurrent operations with monitors working. I will need to re-read Adam Mallen's paper for more details.
+				</p>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<p>
 					Wednesday, December 22, 2021: Memory offsets are now being calculated with the stack pointer as the base. Tested on a number of testcases. BigArgs.java is still not working >:(
+				</p>
+				<p>
+					Met with Dr. Brylow on Teams. We discussed next steps for the project. He provided me Adam Mallen's monitor code for Xinu. I've been able to get it running, but there are some issues that are not making it
+					run correctly. The next phase of development will try to get Xinu and MiniJava to work together with concurrent programs. Thesis writing continues. We are working on coming up with a good thesis committee.
+					I will send out some emails to faculty members after the winter break ends.
 				</p>
 				<p>
 					TODO: Add support for integers larger than 16 bits (i.e. splitting into two words and shifting)
