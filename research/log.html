@@ -12,6 +12,51 @@
 		<tr>
 			<td>
 				<p>
+					Thursday, Febrary 3, 2022: Met with Dr. Rubya to discuss my project. Sent Dr. Brylow an update regarding cleaning up the repository and transitioning to writing. Dr. Brylow is satisfied with multi-threaded programs taking a while to finish. He suspects that the Xinu spinlock implementation is the speed bottleneck.
+				</p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<p>
+					Thursday, January 27, 2022: Met with Dr. Brylow today. We went over my results after figuring out the lock/unlock call issue. We discovered that the version of Xinu that I've been working with did not spawn threads on new cores. We fixed that by setting a static variable to loop around the cores round-robin and spawn each new MiniJava thread on a new core for <i>real</i> concurrent programming.
+				</p>
+
+				<p>
+					We revised the ThreadGood and ThreadBad testcases to more closely resemble the testcase given in Adam Mallen's paper. These testcases run as expected, but the ThreadGood testcase takes nearly a minute to complete. I don't know why this is yet. I suspect it has to do with Xinu's scheduler. There may be some changes to monitors to improve their speed. I will investigate this further.
+				</p>
+
+				<p>
+					At this point, I will start shifting my time to more writing and less coding. I will meet with Dr. Rubya this Thursday (Feb 3rd). 
+				</p>
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				<p>
+					Thursday, January 20, 2022: Met with Dr. Brylow in person today. we went over my current thesis progress and talked about the ongoing monitor issue with locking and unlocking monitors within synchronized methods. He gave me good feebadk on the thesis and we have a way to move forward with debugging the monitor issue.
+				</p>
+			</td>
+		</tr>
+
+
+		<tr>
+			<td>
+				<p>
+					Friday, January 14, 2022: I met with Dr. Brylow today. He was able to find Adam Mallen's code for adding lock and unlock to Translate.java. It will take some effort to port over to the latest version of the compiler, but once that is done, things should work well.
+				</p>
+
+				<p>
+					I told Dr. Brylow of my intention to have a rough draft of the thesis by the middle of February.
+				</p>
+			</td>
+		</tr>
+		
+		
+		<tr>
+			<td>
+				<p>
 					Monday, January 10, 2022: I've added back in Type class constructors without arguments. This lets us revert back some hard-coded constructors in Semant/TypeChecker.java in favor of more "generic" ones.
 
 					I have investigated further into the issue of <code>_lock</code> and <code>_unlock</code> not working. It seems that the syscalls <code>lock/unlock</code> return an integer on either success or failure. This return value is placed in r0 upon returning from the function. This return value seems to be interfering with the following function's address being calculated and setup to be branched to.
@@ -34,7 +79,9 @@ L49:
 
 				</pre>
 
-
+				<p>
+					I've also been working on chapter 5 of the thesis, regarding access modifiers. I want to get this chapter done within the next day or so. My plan is to have a very rough draft of the entire paper (or as much as possible) by the middle of February.
+				</p>
 			</td>
 		</tr>
 
